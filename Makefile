@@ -16,6 +16,7 @@ C_SOURCES = \
 
 CPP_SOURCES = \
 	main.cpp \
+	Source/Controls.cpp \
 
 # Core location, and generic Makefile.
 SYSTEM_FILES_DIR = $(LIBDAISY_DIR)/core
