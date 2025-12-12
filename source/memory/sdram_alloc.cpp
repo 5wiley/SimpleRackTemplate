@@ -8,11 +8,11 @@
 #define INFS_SDRAM_POOL_SIZE (32 * 1024 * 1024)
 #endif
 
-namespace infrasonic {
+namespace SimpleRack {
 std::aligned_storage<INFS_SDRAM_POOL_SIZE>::type DSY_SDRAM_BSS sdram_pool;
 }
 
-using namespace infrasonic;
+using namespace SimpleRack;
 
 // Implementation here inspired by Eurorack Blocks MonotonicMemoryPool but
 // combined into one single, far less flexible interface

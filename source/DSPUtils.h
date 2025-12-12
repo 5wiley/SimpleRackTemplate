@@ -8,7 +8,7 @@
 #include <arm_math.h>
 #endif
 
-namespace infrasonic {
+namespace SimpleRack {
 
 inline float dbfs2lin(float dbfs) {
   return daisysp::pow10f(dbfs * 0.05f);
@@ -49,6 +49,6 @@ inline float tanf(const float x) {
 #endif
 }
 
-}  // namespace infrasonic
+}  // namespace SimpleRack
 
 #endif

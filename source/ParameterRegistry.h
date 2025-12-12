@@ -8,7 +8,7 @@
 #include "SmoothedValue.h"
 #include "DSPUtils.h"
 
-namespace infrasonic {
+namespace SimpleRack {
 
 /**
  * @brief
@@ -104,6 +104,6 @@ private:
   ParamStates param_states_;
 };
 
-}  // namespace infrasonic
+}  // namespace SimpleRack
 
 #endif

@@ -12,8 +12,7 @@
 #include <dev/sdram.h>
 #endif
 
-namespace infrasonic {
-namespace FeedbackSynth {
+namespace SimpleRack {
 
 class Engine {
 public:
@@ -58,7 +57,7 @@ private:
   // float fb_delay_samp_ = 1000.f;
   // float fb_delay_samp_target_ = 64.f;
 
-  // infrasonic::KarplusString strings_[2];
+  // deleteme::KarplusString strings_[2];
   // daisysp::WhiteNoise noise_;
   // daisysp::DelayLine<float, kMaxFeedbackDelaySamp> fb_delayline_[2];
   // daisysp::Overdrive overdrive_[2];
@@ -78,7 +77,6 @@ private:
   Engine& operator=(Engine&& other) = delete;
 };
 
-}  // namespace FeedbackSynth
-}  // namespace infrasonic
+}  // namespace SimpleRack
 
 #endif

@@ -5,7 +5,7 @@
 #include <daisysp.h>
 #include "DSPUtils.h"
 
-namespace infrasonic {
+namespace SimpleRack {
 
 class SmoothedValue {
 public:
@@ -39,6 +39,6 @@ private:
   bool initialized_ = false;
 };
 
-}  // namespace infrasonic
+}  // namespace SimpleRack
 
 #endif

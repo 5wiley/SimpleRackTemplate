@@ -16,8 +16,8 @@ C_SOURCES = \
 
 CPP_SOURCES = \
 	main.cpp \
-	source/FeedbackSynthControls.cpp \
-	source/FeedbackSynthEngine.cpp \
+	source/Controls.cpp \
+	source/Engine.cpp \
 
 # Core location, and generic Makefile.
 SYSTEM_FILES_DIR = $(LIBDAISY_DIR)/core

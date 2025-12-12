@@ -1,5 +1,5 @@
-make:
-    bear -- make
+make-clean:
+    make clean && make
 
 daisy:
     cd lib/DaisySP && make

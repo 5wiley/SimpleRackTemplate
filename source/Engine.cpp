@@ -1,9 +1,8 @@
-#include "FeedbackSynthEngine.h"
+#include "Engine.h"
 #include "DSPUtils.h"
 #include "memory/sdram_alloc.h"
 
-using namespace infrasonic;
-using namespace infrasonic::FeedbackSynth;
+using namespace SimpleRack;
 using namespace daisysp;
 
 void Engine::Init(const float sample_rate) {

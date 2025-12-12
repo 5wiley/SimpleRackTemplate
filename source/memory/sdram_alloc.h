@@ -6,7 +6,7 @@
 #include <atomic>
 #include <new>
 
-namespace infrasonic {
+namespace SimpleRack {
 /**
  * @brief
  * Provides an interface for monotonic, pseudo-dynamic allocation of memory
@@ -53,6 +53,6 @@ private:
   std::atomic_size_t pool_pos_ = {0};
 };
 
-}  // namespace infrasonic
+}  // namespace SimpleRack
 
 #endif

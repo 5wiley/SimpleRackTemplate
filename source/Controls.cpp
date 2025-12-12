@@ -1,8 +1,7 @@
-#include "FeedbackSynthControls.h"
+#include "Controls.h"
 #include <functional>
 
-using namespace infrasonic;
-using namespace infrasonic::FeedbackSynth;
+using namespace SimpleRack;
 using namespace daisy;
 
 ////////////// SIMPLE X DAISY PINOUT CHEATSHEET ///////////////

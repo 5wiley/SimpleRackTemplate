@@ -4,11 +4,10 @@
 
 #include <daisy.h>
 #include <daisy_seed.h>
-#include "FeedbackSynthEngine.h"
+#include "Engine.h"
 #include "ParameterRegistry.h"
 
-namespace infrasonic {
-namespace FeedbackSynth {
+namespace SimpleRack {
 
 class Controls {
 public:
@@ -49,7 +48,6 @@ private:
   void registerParams(Engine& engine);
 };
 
-}  // namespace FeedbackSynth
-}  // namespace infrasonic
+}  // namespace SimpleRack
 
 #endif

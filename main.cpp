@@ -1,8 +1,8 @@
 #include "daisy_seed.h"
-#include "FeedbackSynthEngine.h"
-#include "FeedbackSynthControls.h"
+#include "Engine.h"
+#include "Controls.h"
 
-using namespace infrasonic;
+using namespace SimpleRack;
 using namespace daisy;
 using namespace daisysp;
 
@@ -10,8 +10,8 @@ static const auto kSampleRate = SaiHandle::Config::SampleRate::SAI_48KHZ;
 static const size_t kBlockSize = 4;
 
 static DaisySeed hw;
-static FeedbackSynth::Engine engine;
-static FeedbackSynth::Controls controls;
+static Engine engine;
+static Controls controls;
 
 void AudioCallback(AudioHandle::InputBuffer in,
                    AudioHandle::OutputBuffer out,
