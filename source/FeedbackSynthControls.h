@@ -1,14 +1,14 @@
-
 #pragma once
 #ifndef INFS_FEEDBACKSYNTHCONTROLS_H
 #define INFS_FEEDBACKSYNTHCONTROLS_H
 
 #include <daisy.h>
 #include <daisy_seed.h>
-#include "Engine.h"
+#include "FeedbackSynthEngine.h"
 #include "ParameterRegistry.h"
 
 namespace infrasonic {
+namespace FeedbackSynth {
 
 class Controls {
 public:
@@ -48,6 +48,8 @@ private:
   void initADCs(daisy::DaisySeed& hw);
   void registerParams(Engine& engine);
 };
+
+}  // namespace FeedbackSynth
 }  // namespace infrasonic
 
 #endif

@@ -8,7 +8,7 @@ CMSIS_DSP_SRC_DIR = ${LIBDAISY_DIR}/Drivers/CMSIS-DSP/Source
 C_DEFS = -DTARGET_DAISY
 
 C_INCLUDES = \
-	-ISource/
+	-Isource/
 
 C_SOURCES = \
 	${CMSIS_DSP_SRC_DIR}/CommonTables/arm_common_tables.c \
@@ -16,7 +16,8 @@ C_SOURCES = \
 
 CPP_SOURCES = \
 	main.cpp \
-	Source/Controls.cpp \
+	source/FeedbackSynthControls.cpp \
+	source/FeedbackSynthEngine.cpp \
 
 # Core location, and generic Makefile.
 SYSTEM_FILES_DIR = $(LIBDAISY_DIR)/core
