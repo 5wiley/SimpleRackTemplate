@@ -29,7 +29,7 @@ using namespace daisy;
 
 // TODO: Add footprint numbers to these
 
-static constexpr daisy::Pin kOutputVolumeAdcPin = daisy::seed::A2;  // 32
+static constexpr daisy::Pin kOutputVolumeAdcPin = daisy::seed::A0;  // 32
 
 void Controls::Init(DaisySeed& hw, Engine& engine) {
   params_.Init(hw.AudioSampleRate() / hw.AudioBlockSize());
@@ -41,32 +41,33 @@ void Controls::Init(DaisySeed& hw, Engine& engine) {
 }
 
 void Controls::Update(DaisySeed& hw) {
-  // params_.UpdateNormalized(Parameter::Frequency,          1.0f -
-  // hw.adc.GetFloat(0)); params_.UpdateNormalized(Parameter::FeedbackGain, 1.0f
-  // - hw.adc.GetFloat(1)); params_.UpdateNormalized(Parameter::FeedbackBody,
-  // 1.0f - hw.adc.GetFloat(2));
-  // params_.UpdateNormalized(Parameter::FeedbackLPFCutoff,  1.0f -
-  // hw.adc.GetFloat(3)); params_.UpdateNormalized(Parameter::FeedbackHPFCutoff,
-  // 1.0f - hw.adc.GetFloat(4)); params_.UpdateNormalized(Parameter::ReverbMix,
-  // 1.0f - hw.adc.GetFloat(5));
-  // // Special mapping for reverb feedback/decay (anti-exponential tension
-  // curve) params_.UpdateNormalized(Parameter::ReverbDecay, ftension(1.0f -
-  // hw.adc.GetFloat(6), -3.0f));
-  // params_.UpdateNormalized(Parameter::EchoDelaySend,      1.0f -
-  // hw.adc.GetFloat(7));
-  // // Delay switch doubles or halves delay time instantly for doppler warp
-  // del_sw_.Debounce();
-  // float delay_norm = 1.0f - hw.adc.GetFloat(8);
-  // float delay_scale = del_sw_.Pressed() ? 0.5f : 1.0f;
-  // params_.UpdateNormalized(Parameter::EchoDelayTime, delay_norm *
-  // delay_scale); params_.UpdateNormalized(Parameter::EchoDelayFeedback,  1.0f
-  // - hw.adc.GetFloat(9)); params_.UpdateNormalized(Parameter::OutputVolume,
-  hw.adc.GetFloat(1);
+  /*
+  params_.UpdateNormalized(Parameter::Frequency, 1.0f - hw.adc.GetFloat(0));
+  params_.UpdateNormalized(Parameter::FeedbackGain, 1.0f - hw.adc.GetFloat(1));
+  params_.UpdateNormalized(Parameter::FeedbackBody, 1.0f - hw.adc.GetFloat(2));
+  params_.UpdateNormalized(Parameter::FeedbackLPFCutoff,
+                           1.0f - hw.adc.GetFloat(3));
+  params_.UpdateNormalized(Parameter::FeedbackHPFCutoff,
+                           1.0f - hw.adc.GetFloat(4));
+  params_.UpdateNormalized(Parameter::ReverbMix, 1.0f - hw.adc.GetFloat(5));
+  // Special mapping for reverb feedback/decay (anti-exponential tension
+  curve) params_.UpdateNormalized(Parameter::ReverbDecay, ftension(1.0f -
+  hw.adc.GetFloat(6), -3.0f));
+  params_.UpdateNormalized(Parameter::EchoDelaySend, 1.0f - hw.adc.GetFloat(7));
+  // Delay switch doubles or halves delay time instantly for doppler warp
+  del_sw_.Debounce();
+  float delay_norm = 1.0f - hw.adc.GetFloat(8);
+  float delay_scale = del_sw_.Pressed() ? 0.5f : 1.0f;
+  params_.UpdateNormalized(Parameter::EchoDelayTime, delay_norm * delay_scale);
+  params_.UpdateNormalized(Parameter::EchoDelayFeedback,
+                           1.0f - hw.adc.GetFloat(9));
+ */
+  params_.UpdateNormalized(Parameter::OutputVolume, hw.adc.GetFloat(0));
 }
 
 void Controls::initADCs(DaisySeed& hw) {
   AdcChannelConfig config[kNumAdcChannels];
-  config[1].InitSingle(kOutputVolumeAdcPin);
+  config[0].InitSingle(kOutputVolumeAdcPin);
 
   hw.adc.Init(config, kNumAdcChannels);
   hw.adc.Start();
@@ -118,8 +119,8 @@ void Controls::registerParams(Engine& engine) {
   // params_.Register(Parameter::EchoDelayFeedback, 0.0f, 0.0f, 1.5f,
   //     std::bind(&Engine::SetEchoDelayFeedback, &engine, _1));
 
-  // // Output level
-  // params_.Register(Parameter::OutputVolume, 0.5f, 0.0f, 1.0f,
-  //                  std::bind(&Engine::SetOutputLevel, &engine, _1), 0.05f,
-  //                  daisysp::Mapping::EXP);
+  // Output level
+  params_.Register(Parameter::OutputVolume, 0.5f, 0.0f, 1.0f,
+                   std::bind(&Engine::SetOutputLevel, &engine, _1), 0.05f,
+                   daisysp::Mapping::EXP);
 }

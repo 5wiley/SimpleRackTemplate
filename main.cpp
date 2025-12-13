@@ -31,7 +31,7 @@ int main(void) {
   hw.SetAudioBlockSize(48);
 
   engine.Init(hw.AudioSampleRate());
-  // controls.Init(hw, engine); // uncommenting this line causes no audio
+  controls.Init(hw, engine);
 
   // for(auto& lim : limiter)
   // {
