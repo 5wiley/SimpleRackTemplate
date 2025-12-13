@@ -12,6 +12,7 @@
     pkgs.cmake
     pkgs.pre-commit
     pkgs.gcc-arm-embedded
+    pkgs.dfu-util
   ];
 
   # https://devenv.sh/languages/

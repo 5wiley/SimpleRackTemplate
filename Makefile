@@ -7,6 +7,9 @@ CMSIS_DSP_SRC_DIR = ${LIBDAISY_DIR}/Drivers/CMSIS-DSP/Source
 
 C_DEFS = -DTARGET_DAISY
 
+# Use QSPI Flash instead of internal 128KB flash
+APP_TYPE = BOOT_SRAM
+
 C_INCLUDES = \
 	-Isource/
 

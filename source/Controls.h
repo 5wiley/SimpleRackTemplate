@@ -21,28 +21,17 @@ public:
   void Process() { params_.Process(); }
 
 private:
-  static const size_t kNumAdcChannels = 11;
-
-  /// Identifies a parameter of the synth engine
-  /// The order here is the same order as the ADC pin configs in the cpp file
+  // Identifies a parameter of the synth engine
+  // The order here is the same order as the ADC pin configs in the cpp file
+  static const size_t kNumAdcChannels = 1;
   enum class Parameter : uint8_t {
-    Frequency = 0,
-    FeedbackGain,       // 1
-    FeedbackBody,       // 2
-    FeedbackLPFCutoff,  // 3
-    FeedbackHPFCutoff,  // 4
-    ReverbMix,          // 5
-    ReverbDecay,        // 6
-    EchoDelaySend,      // 7
-    EchoDelayTime,      // 8
-    EchoDelayFeedback,  // 9
-    OutputVolume        // 10
+    OutputVolume  // 1
   };
 
   using Parameters = ParameterRegistry<Parameter>;
 
   Parameters params_;
-  daisy::Switch del_sw_;
+  // daisy::Switch del_sw_;
 
   void initADCs(daisy::DaisySeed& hw);
   void registerParams(Engine& engine);

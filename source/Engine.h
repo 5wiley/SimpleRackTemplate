@@ -39,7 +39,7 @@ public:
 
   void SetOutputLevel(const float level);
 
-  void Process(float in, float& outL, float& outR);
+  void Process(float& outL, float& outR);
 
 private:
   // // long enough for 250ms at 48kHz
@@ -51,14 +51,14 @@ private:
   // float fb_gain_ = 0.0f;
   // float echo_send_ = 0.0f;
   // float verb_mix_ = 0.0f;
-  // float output_level_ = 0.5f;
+  float output_level_ = 0.5f;
 
   // float fb_delay_smooth_coef_;
   // float fb_delay_samp_ = 1000.f;
   // float fb_delay_samp_target_ = 64.f;
 
   // deleteme::KarplusString strings_[2];
-  // daisysp::WhiteNoise noise_;
+  daisysp::WhiteNoise noise_;
   // daisysp::DelayLine<float, kMaxFeedbackDelaySamp> fb_delayline_[2];
   // daisysp::Overdrive overdrive_[2];
 

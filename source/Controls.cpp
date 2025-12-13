@@ -29,35 +29,13 @@ using namespace daisy;
 
 // TODO: Add footprint numbers to these
 
-static constexpr daisy::Pin kFreqKnobAdcPin =
-    daisy::seed::A10;  // Simple bottom pin 40
-static constexpr daisy::Pin kFeedbackGainKnobPin =
-    daisy::seed::A9;  // Simple bottom pin 39
-static constexpr daisy::Pin kFeedbackBodyKnobPin =
-    daisy::seed::A5;  // Simple bottom pin 35
-static constexpr daisy::Pin kFeedbackLowpassKnobAdcPin =
-    daisy::seed::A4;  // Simple bottom pin 34
-static constexpr daisy::Pin kFeedbackHighpassKnobAdcPin =
-    daisy::seed::A8;  // Simple bottom pin 38
-static constexpr daisy::Pin kRevMixKnobAdcPin =
-    daisy::seed::A7;  // Simple bottom pin 37
-static constexpr daisy::Pin kRevDecayKnobAdcPin =
-    daisy::seed::A6;  // Simple bottom pin 36
-static constexpr daisy::Pin kEchoSendKnobAdcPin =
-    daisy::seed::A1;  // Simple bottom pin 31
-static constexpr daisy::Pin kEchoTimeKnobAdcPin =
-    daisy::seed::A0;  // Simple bottom pin 30
-static constexpr daisy::Pin kEchoFeedbackKnobAdcPin =
-    daisy::seed::A3;  // Simple bottom pin 33
-static constexpr daisy::Pin kOutputVolumeAdcPin =
-    daisy::seed::A2;  // Simple bottom pin 32
-static constexpr daisy::Pin kDelaySwitchPin =
-    daisy::seed::D14;  // Simple bottom pin 15
+static constexpr daisy::Pin kOutputVolumeAdcPin = daisy::seed::A2;  // 32
 
 void Controls::Init(DaisySeed& hw, Engine& engine) {
   params_.Init(hw.AudioSampleRate() / hw.AudioBlockSize());
-  del_sw_.Init(static_cast<Pin>(kDelaySwitchPin), 1000.0f, Switch::TYPE_TOGGLE,
-               Switch::POLARITY_INVERTED, GPIO::Pull::PULLUP);
+  // del_sw_.Init(static_cast<Pin>(kDelaySwitchPin), 1000.0f,
+  // Switch::TYPE_TOGGLE,
+  //              Switch::POLARITY_INVERTED, GPIO::Pull::PULLUP);
   initADCs(hw);
   registerParams(engine);
 }
@@ -83,23 +61,12 @@ void Controls::Update(DaisySeed& hw) {
   // params_.UpdateNormalized(Parameter::EchoDelayTime, delay_norm *
   // delay_scale); params_.UpdateNormalized(Parameter::EchoDelayFeedback,  1.0f
   // - hw.adc.GetFloat(9)); params_.UpdateNormalized(Parameter::OutputVolume,
-  // 1.0f - hw.adc.GetFloat(10));
+  hw.adc.GetFloat(1);
 }
 
 void Controls::initADCs(DaisySeed& hw) {
   AdcChannelConfig config[kNumAdcChannels];
-
-  config[0].InitSingle(kFreqKnobAdcPin);
-  config[1].InitSingle(kFeedbackGainKnobPin);
-  config[2].InitSingle(kFeedbackBodyKnobPin);
-  config[3].InitSingle(kFeedbackLowpassKnobAdcPin);
-  config[4].InitSingle(kFeedbackHighpassKnobAdcPin);
-  config[5].InitSingle(kRevMixKnobAdcPin);
-  config[6].InitSingle(kRevDecayKnobAdcPin);
-  config[7].InitSingle(kEchoSendKnobAdcPin);
-  config[8].InitSingle(kEchoTimeKnobAdcPin);
-  config[9].InitSingle(kEchoFeedbackKnobAdcPin);
-  config[10].InitSingle(kOutputVolumeAdcPin);
+  config[1].InitSingle(kOutputVolumeAdcPin);
 
   hw.adc.Init(config, kNumAdcChannels);
   hw.adc.Start();
@@ -151,8 +118,8 @@ void Controls::registerParams(Engine& engine) {
   // params_.Register(Parameter::EchoDelayFeedback, 0.0f, 0.0f, 1.5f,
   //     std::bind(&Engine::SetEchoDelayFeedback, &engine, _1));
 
-  // Output level
-  params_.Register(Parameter::OutputVolume, 0.5f, 0.0f, 1.0f,
-                   std::bind(&Engine::SetOutputLevel, &engine, _1), 0.05f,
-                   daisysp::Mapping::EXP);
+  // // Output level
+  // params_.Register(Parameter::OutputVolume, 0.5f, 0.0f, 1.0f,
+  //                  std::bind(&Engine::SetOutputLevel, &engine, _1), 0.05f,
+  //                  daisysp::Mapping::EXP);
 }
