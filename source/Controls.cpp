@@ -29,7 +29,7 @@ using namespace daisy;
 
 // TODO: Add footprint numbers to these
 
-static constexpr daisy::Pin kOutputVolumeAdcPin = daisy::seed::A0;  // 32
+static constexpr daisy::Pin kOutputVolumeAdcPin = daisy::seed::A0;  // 30
 
 void Controls::Init(DaisySeed& hw, Engine& engine) {
   params_.Init(hw.AudioSampleRate() / hw.AudioBlockSize());
