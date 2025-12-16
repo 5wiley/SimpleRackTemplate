@@ -33,11 +33,13 @@ static constexpr daisy::Pin kOutputVolumeAdcPin = daisy::seed::A0;  // 30
 
 void Controls::Init(DaisySeed& hw, Engine& engine) {
   params_.Init(hw.AudioSampleRate() / hw.AudioBlockSize());
+  // CVRegistry doesn't need Init() - it works at audio rate without smoothing
   // del_sw_.Init(static_cast<Pin>(kDelaySwitchPin), 1000.0f,
   // Switch::TYPE_TOGGLE,
   //              Switch::POLARITY_INVERTED, GPIO::Pull::PULLUP);
   initADCs(hw);
   registerParams(engine);
+  registerCVs(engine);
 }
 
 void Controls::Update(DaisySeed& hw) {
@@ -62,7 +64,8 @@ void Controls::Update(DaisySeed& hw) {
   params_.UpdateNormalized(Parameter::EchoDelayFeedback,
                            1.0f - hw.adc.GetFloat(9));
  */
-  params_.UpdateNormalized(Parameter::OutputVolume, hw.adc.GetFloat(0));
+  // Update CV inputs (audio-rate, no smoothing)
+  cv_.UpdateNormalized(CV::OutputVolume, hw.adc.GetFloat(0));
 }
 
 void Controls::initADCs(DaisySeed& hw) {
@@ -119,8 +122,14 @@ void Controls::registerParams(Engine& engine) {
   // params_.Register(Parameter::EchoDelayFeedback, 0.0f, 0.0f, 1.5f,
   //     std::bind(&Engine::SetEchoDelayFeedback, &engine, _1));
 
-  // Output level
-  params_.Register(Parameter::OutputVolume, 0.5f, 0.0f, 1.0f,
-                   std::bind(&Engine::SetOutputLevel, &engine, _1), 0.05f,
-                   daisysp::Mapping::EXP);
+  // No parameters currently - OutputVolume moved to CV
+}
+
+void Controls::registerCVs(Engine& engine) {
+  using namespace std::placeholders;
+
+  // Output level - audio rate CV input without smoothing
+  cv_.Register(CV::OutputVolume, 0.5f, 0.0f, 1.0f,
+               std::bind(&Engine::SetOutputLevel, &engine, _1),
+               daisysp::Mapping::EXP);
 }
