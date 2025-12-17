@@ -19,30 +19,41 @@ void AudioCallback(AudioHandle::InputBuffer in,
   controls.Update(hw);
   controls.Process();
   for (size_t i = 0; i < size; i++) {
-    engine.Process(OUT_L[i], OUT_R[i]);
+    engine.ProcessAudio(OUT_L[i], OUT_R[i]);
   }
   // limiter[0].ProcessBlock(OUT_L, size, 0.7f);
   // limiter[1].ProcessBlock(OUT_R, size, 0.7f);
+}
+
+void DacCallback(uint16_t** out, size_t size) {
+  controls.Update(hw);
+  controls.Process();
+  for (size_t i = 0; i < size; i++) {
+    engine.ProcessCv(*out);
+  }
 }
 
 int main(void) {
   hw.Init();
   hw.SetAudioSampleRate(SaiHandle::Config::SampleRate::SAI_48KHZ);
   hw.SetAudioBlockSize(48);
+  static const size_t size = 48;
 
   engine.Init(hw.AudioSampleRate());
   controls.Init(hw, engine);
 
-  // for(auto& lim : limiter)
-  // {
-  //     lim.Init();
-  // }
-
-  // Enable Logging, and set up the USB connection.
-  // Setting true here means that the program will wait until
-  // a connection has been made to a USB Host
-  // hw.StartLog();
-  // hw.PrintLine("test");
+  // DACs
+  DacHandle::Config cfg;
+  cfg.bitdepth = DacHandle::BitDepth::BITS_12;
+  cfg.buff_state = DacHandle::BufferState::ENABLED;
+  cfg.mode = DacHandle::Mode::DMA;
+  // Only one of the following //
+  cfg.chn = DacHandle::Channel::BOTH;  // A8 and A7
+  // cfg.chn = DacHandle::Channel::ONE;   // A8
+  // cfg.chn = DacHandle::Channel::TWO;   // A7
+  hw.dac.Init(cfg);
+  static uint16_t DMA_BUFFER_MEM_SECTION dacBuffer1[size], dacBuffer2[size];
+  hw.dac.Start(dacBuffer1, dacBuffer2, size, DacCallback);
 
   hw.StartAudio(AudioCallback);
 

@@ -39,7 +39,9 @@ public:
 
   void SetOutputLevel(const float level);
 
-  void Process(float& outL, float& outR);
+  void ProcessAudio(float& outL, float& outR);
+
+  void ProcessCv(uint16_t* out);
 
 private:
   // // long enough for 250ms at 48kHz
@@ -52,6 +54,8 @@ private:
   // float echo_send_ = 0.0f;
   // float verb_mix_ = 0.0f;
   float output_level_ = 0.5f;
+
+  int testRamp = 0;
 
   // float fb_delay_smooth_coef_;
   // float fb_delay_samp_ = 1000.f;

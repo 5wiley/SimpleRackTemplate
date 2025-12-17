@@ -14,8 +14,8 @@ using namespace daisy;
 // D19 / A4      34  |       |   15    D14
 // D20 / A5      35  |       |   14    D13
 // D21 / A6      36  |       |   13    D12
-// D22 / A7      37  |       |   12    D11
-// D23 / A8      38  |       |   11    D10
+// D22 / A7 DAC1 37  |       |   12    D11
+// D23 / A8 DAC2 38  |       |   11    D10
 // D24 / A9      39  |       |   10    D9
 // D25 / A10     40  |       |   09    D8
 // D26           41  |       |   08    D7
@@ -30,6 +30,7 @@ using namespace daisy;
 // TODO: Add footprint numbers to these
 
 static constexpr daisy::Pin kOutputVolumeAdcPin = daisy::seed::A0;  // 30
+static constexpr daisy::Pin kOutputVolumeCvPin = daisy::seed::A1;   // 31
 
 void Controls::Init(DaisySeed& hw, Engine& engine) {
   params_.Init(hw.AudioSampleRate() / hw.AudioBlockSize());

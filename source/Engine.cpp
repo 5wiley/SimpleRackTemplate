@@ -98,7 +98,7 @@ void Engine::SetOutputLevel(const float level) {
   output_level_ = level;
 }
 
-void Engine::Process(float& outL, float& outR) {
+void Engine::ProcessAudio(float& outL, float& outR) {
   // // --- Update audio-rate-smoothed control params ---
 
   // fonepole(fb_delay_samp_, fb_delay_samp_target_, fb_delay_smooth_coef_);
@@ -113,4 +113,20 @@ void Engine::Process(float& outL, float& outR) {
   // ---> Output
   outL = sampL * output_level_;
   outR = sampR * output_level_;
+}
+
+void Engine::ProcessCv(uint16_t* out) {
+  // Example: Write a value to the buffer
+  // For DAC output, values typically range from 0-4095 for 12-bit DAC
+  // *out = 2048;  // Middle value
+
+  // You can now write to the buffer using *out or out[index]
+  // Example: out[0] = value1; out[1] = value2; etc.
+
+  ++testRamp;
+  if (testRamp > 4095) {
+    testRamp = 0;
+  }
+  out[0] = testRamp;
+  out[1] = testRamp;
 }
