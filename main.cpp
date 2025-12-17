@@ -16,9 +16,10 @@ static Controls controls;
 void AudioCallback(AudioHandle::InputBuffer in,
                    AudioHandle::OutputBuffer out,
                    size_t size) {
-  controls.Update(hw);
+  controls.UpdateParameter(hw);
   controls.Process();
   for (size_t i = 0; i < size; i++) {
+    controls.UpdateCv(hw);
     engine.ProcessAudio(OUT_L[i], OUT_R[i]);
   }
   // limiter[0].ProcessBlock(OUT_L, size, 0.7f);
@@ -26,9 +27,10 @@ void AudioCallback(AudioHandle::InputBuffer in,
 }
 
 void DacCallback(uint16_t** out, size_t size) {
-  controls.Update(hw);
+  controls.UpdateParameter(hw);
   controls.Process();
   for (size_t i = 0; i < size; i++) {
+    controls.UpdateCv(hw);
     engine.ProcessCv(*out);
   }
 }
@@ -38,6 +40,8 @@ int main(void) {
   hw.SetAudioSampleRate(SaiHandle::Config::SampleRate::SAI_48KHZ);
   hw.SetAudioBlockSize(48);
   static const size_t size = 48;
+
+  hw.StartLog();
 
   engine.Init(hw.AudioSampleRate());
   controls.Init(hw, engine);
@@ -58,6 +62,14 @@ int main(void) {
   hw.StartAudio(AudioCallback);
 
   while (1) {
+    hw.Print(">");  // Begins control sequence
+
+    FixedCapStr<16> str0("ADC0:");
+    str0.AppendFloat(hw.adc.GetFloat(0));
+    hw.Print(str0);
+
+    hw.PrintLine("");  // Ends control sequence
+    System::Delay(1);
   }
 }
 //

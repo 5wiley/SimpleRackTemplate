@@ -43,7 +43,7 @@ void Controls::Init(DaisySeed& hw, Engine& engine) {
   registerCVs(engine);
 }
 
-void Controls::Update(DaisySeed& hw) {
+void Controls::UpdateParameter(DaisySeed& hw) {
   /*
   params_.UpdateNormalized(Parameter::Frequency, 1.0f - hw.adc.GetFloat(0));
   params_.UpdateNormalized(Parameter::FeedbackGain, 1.0f - hw.adc.GetFloat(1));
@@ -65,7 +65,9 @@ void Controls::Update(DaisySeed& hw) {
   params_.UpdateNormalized(Parameter::EchoDelayFeedback,
                            1.0f - hw.adc.GetFloat(9));
  */
-  // Update CV inputs (audio-rate, no smoothing)
+}
+
+void Controls::UpdateCv(DaisySeed& hw) {
   cv_.UpdateNormalized(CV::OutputVolume, hw.adc.GetFloat(0));
 }
 

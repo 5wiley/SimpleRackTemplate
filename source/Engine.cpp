@@ -123,7 +123,11 @@ void Engine::ProcessCv(uint16_t* out) {
   // You can now write to the buffer using *out or out[index]
   // Example: out[0] = value1; out[1] = value2; etc.
 
-  ++testRamp;
+  ++testCounter;
+  if (testCounter > 20) {
+    testCounter = 0;
+    ++testRamp;
+  }
   if (testRamp > 4095) {
     testRamp = 0;
   }

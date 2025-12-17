@@ -55,6 +55,7 @@ private:
   // float verb_mix_ = 0.0f;
   float output_level_ = 0.5f;
 
+  int testCounter = 0;
   int testRamp = 0;
 
   // float fb_delay_smooth_coef_;

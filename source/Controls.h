@@ -17,7 +17,8 @@ public:
 
   void Init(daisy::DaisySeed& hw, Engine& engine);
 
-  void Update(daisy::DaisySeed& hw);
+  void UpdateParameter(daisy::DaisySeed& hw);
+  void UpdateCv(daisy::DaisySeed& hw);
 
   void Process() {
     params_.Process();
