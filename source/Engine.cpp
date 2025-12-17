@@ -115,13 +115,9 @@ void Engine::ProcessAudio(float& outL, float& outR) {
   outR = sampR * output_level_;
 }
 
-void Engine::ProcessCv(uint16_t* out) {
-  // Example: Write a value to the buffer
+void Engine::ProcessCv(uint16_t& out0, uint16_t& out1) {
+  // Example: Write values to the DAC outputs
   // For DAC output, values typically range from 0-4095 for 12-bit DAC
-  // *out = 2048;  // Middle value
-
-  // You can now write to the buffer using *out or out[index]
-  // Example: out[0] = value1; out[1] = value2; etc.
 
   ++testCounter;
   if (testCounter > 20) {
@@ -131,6 +127,12 @@ void Engine::ProcessCv(uint16_t* out) {
   if (testRamp > 4095) {
     testRamp = 0;
   }
-  out[0] = testRamp;
-  out[1] = testRamp;
+  out0 = testRamp;
+  out1 = testRamp;
+
+  // out0 = (noise_.Process() * 0.5 + 1) * 4095;
+  // out1 = (noise_.Process() * 0.5 + 1) * 4095;
+
+  // out0 = 4000;
+  // out1 = 4000;
 }

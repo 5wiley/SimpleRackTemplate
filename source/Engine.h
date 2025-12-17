@@ -41,7 +41,7 @@ public:
 
   void ProcessAudio(float& outL, float& outR);
 
-  void ProcessCv(uint16_t* out);
+  void ProcessCv(uint16_t& out0, uint16_t& out1);
 
 private:
   // // long enough for 250ms at 48kHz

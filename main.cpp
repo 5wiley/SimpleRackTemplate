@@ -27,11 +27,11 @@ void AudioCallback(AudioHandle::InputBuffer in,
 }
 
 void DacCallback(uint16_t** out, size_t size) {
-  controls.UpdateParameter(hw);
-  controls.Process();
+  // controls.UpdateParameter(hw);
+  // controls.Process();
   for (size_t i = 0; i < size; i++) {
     controls.UpdateCv(hw);
-    engine.ProcessCv(*out);
+    engine.ProcessCv(out[0][i], out[1][i]);
   }
 }
 
@@ -62,11 +62,13 @@ int main(void) {
   hw.StartAudio(AudioCallback);
 
   while (1) {
+    // hw.dac.WriteValue(DacHandle::Channel::BOTH, 4000);
     hw.Print(">");  // Begins control sequence
 
     FixedCapStr<16> str0("ADC0:");
     str0.AppendFloat(hw.adc.GetFloat(0));
     hw.Print(str0);
+    // hw.Print(",");
 
     hw.PrintLine("");  // Ends control sequence
     System::Delay(1);
