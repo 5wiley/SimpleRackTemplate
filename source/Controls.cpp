@@ -40,35 +40,10 @@ void Controls::Init(DaisySeed& hw, Engine& engine) {
   //              Switch::POLARITY_INVERTED, GPIO::Pull::PULLUP);
   initADCs(hw);
   registerParams(engine);
-  registerCVs(engine);
 }
 
 void Controls::UpdateParameter(DaisySeed& hw) {
-  /*
-  params_.UpdateNormalized(Parameter::Frequency, 1.0f - hw.adc.GetFloat(0));
-  params_.UpdateNormalized(Parameter::FeedbackGain, 1.0f - hw.adc.GetFloat(1));
-  params_.UpdateNormalized(Parameter::FeedbackBody, 1.0f - hw.adc.GetFloat(2));
-  params_.UpdateNormalized(Parameter::FeedbackLPFCutoff,
-                           1.0f - hw.adc.GetFloat(3));
-  params_.UpdateNormalized(Parameter::FeedbackHPFCutoff,
-                           1.0f - hw.adc.GetFloat(4));
-  params_.UpdateNormalized(Parameter::ReverbMix, 1.0f - hw.adc.GetFloat(5));
-  // Special mapping for reverb feedback/decay (anti-exponential tension
-  curve) params_.UpdateNormalized(Parameter::ReverbDecay, ftension(1.0f -
-  hw.adc.GetFloat(6), -3.0f));
-  params_.UpdateNormalized(Parameter::EchoDelaySend, 1.0f - hw.adc.GetFloat(7));
-  // Delay switch doubles or halves delay time instantly for doppler warp
-  del_sw_.Debounce();
-  float delay_norm = 1.0f - hw.adc.GetFloat(8);
-  float delay_scale = del_sw_.Pressed() ? 0.5f : 1.0f;
-  params_.UpdateNormalized(Parameter::EchoDelayTime, delay_norm * delay_scale);
-  params_.UpdateNormalized(Parameter::EchoDelayFeedback,
-                           1.0f - hw.adc.GetFloat(9));
- */
-}
-
-void Controls::UpdateCv(DaisySeed& hw) {
-  cv_.UpdateNormalized(CV::OutputVolume, hw.adc.GetFloat(0));
+  params_.UpdateNormalized(Parameter::OutputVolume, hw.adc.GetFloat(0));
 }
 
 void Controls::initADCs(DaisySeed& hw) {
@@ -82,57 +57,8 @@ void Controls::initADCs(DaisySeed& hw) {
 void Controls::registerParams(Engine& engine) {
   using namespace std::placeholders;
 
-  // // String freq/pitch as note number
-  // params_.Register(Parameter::Frequency, 40.0f, 16.0f, 72.0f,
-  //     std::bind(&Engine::SetStringPitch, &engine, _1), 0.2f);
-
-  // // Feedback Gain in dbFS
-  // params_.Register(Parameter::FeedbackGain, -60.0f, -60.0f, 12.0f,
-  //     std::bind(&Engine::SetFeedbackGain, &engine, _1));
-
-  // // Feedback body/delay in seconds
-  // params_.Register(Parameter::FeedbackBody, 0.001f, 0.001f, 0.1f,
-  //     std::bind(&Engine::SetFeedbackDelay, &engine, _1), 1.0f,
-  //     daisysp::Mapping::EXP);
-
-  // // Feedback filter cutoffs in hz
-  // params_.Register(Parameter::FeedbackLPFCutoff, 18000.0f, 100.0f, 18000.0f,
-  //     std::bind(&Engine::SetFeedbackLPFCutoff, &engine, _1), 0.05f,
-  //     daisysp::Mapping::LOG);
-  // params_.Register(Parameter::FeedbackHPFCutoff, 250.0f, 10.0f, 4000.0f,
-  //     std::bind(&Engine::SetFeedbackHPFCutoff, &engine, _1), 0.05f,
-  //     daisysp::Mapping::LOG);
-
-  // // Reverb Mix
-  // params_.Register(Parameter::ReverbMix, 0.0f, 0.0f, 1.0f,
-  //     std::bind(&Engine::SetReverbMix, &engine, _1));
-
-  // // Reverb Feedback (input is mapped to anti-exponential on ADC read)
-  // params_.Register(Parameter::ReverbDecay, 0.2f, 0.2f, 1.0f,
-  //     std::bind(&Engine::SetReverbFeedback, &engine, _1));
-
-  // // Echo Delay send
-  // params_.Register(Parameter::EchoDelaySend, 0.0f, 0.0f, 1.0f,
-  //     std::bind(&Engine::SetEchoDelaySendAmount, &engine, _1), 0.05f,
-  //     daisysp::Mapping::EXP);
-
-  // // Echo Delay time in s
-  // params_.Register(Parameter::EchoDelayTime, 0.5f, 0.05f, 5.0f,
-  //     std::bind(&Engine::SetEchoDelayTime, &engine, _1), 0.1f,
-  //     daisysp::Mapping::EXP);
-
-  // // Echo Delay feedback
-  // params_.Register(Parameter::EchoDelayFeedback, 0.0f, 0.0f, 1.5f,
-  //     std::bind(&Engine::SetEchoDelayFeedback, &engine, _1));
-
-  // No parameters currently - OutputVolume moved to CV
-}
-
-void Controls::registerCVs(Engine& engine) {
-  using namespace std::placeholders;
-
-  // Output level - audio rate CV input without smoothing
-  cv_.Register(CV::OutputVolume, 0.5f, 0.0f, 1.0f,
-               std::bind(&Engine::SetOutputLevel, &engine, _1),
-               daisysp::Mapping::EXP);
+  params_.Register(Parameter::OutputVolume, 0.5f, 0.0f, 1.0f,
+                   std::bind(&Engine::SetOutputLevel, &engine, _1),
+                   0.0f,  // smoothing
+                   daisysp::Mapping::EXP);
 }

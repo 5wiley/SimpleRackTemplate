@@ -16,10 +16,7 @@ static Controls controls;
 void AudioCallback(AudioHandle::InputBuffer in,
                    AudioHandle::OutputBuffer out,
                    size_t size) {
-  controls.UpdateParameter(hw);
-  controls.Process();
   for (size_t i = 0; i < size; i++) {
-    controls.UpdateCv(hw);
     engine.ProcessAudio(OUT_L[i], OUT_R[i]);
   }
   // limiter[0].ProcessBlock(OUT_L, size, 0.7f);
@@ -27,10 +24,7 @@ void AudioCallback(AudioHandle::InputBuffer in,
 }
 
 void DacCallback(uint16_t** out, size_t size) {
-  // controls.UpdateParameter(hw);
-  // controls.Process();
   for (size_t i = 0; i < size; i++) {
-    controls.UpdateCv(hw);
     engine.ProcessCv(out[0][i], out[1][i]);
   }
 }
@@ -62,7 +56,10 @@ int main(void) {
   hw.StartAudio(AudioCallback);
 
   while (1) {
-    // hw.dac.WriteValue(DacHandle::Channel::BOTH, 4000);
+    controls.UpdateParameter(hw);
+    controls.Process();
+
+    // Serial Monitor
     hw.Print(">");  // Begins control sequence
 
     FixedCapStr<16> str0("ADC0:");
